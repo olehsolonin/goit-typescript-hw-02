@@ -1,12 +1,14 @@
 import { Formik, Form, Field } from 'formik';
 
+type SearchBarProps = {
+  onSearch: (searchReq: string) => void;
+};
 
-export default function SearchBar({ onSearch }) {
+export default function SearchBar({ onSearch }: SearchBarProps) {
   return (
     <Formik
       initialValues={{ searchReq: '' }}
       onSubmit={(values, actions) => {
-        console.log(values);
         onSearch(values.searchReq.trim());
         actions.resetForm();
       }}
@@ -15,8 +17,8 @@ export default function SearchBar({ onSearch }) {
         <Field
           type="text"
           name="searchReq"
-          autocomplete="off"
-          autofocus
+          autoComplete="off"
+          autoFocus
           placeholder="Search images and photos"
         />
         <button type="submit">Search</button>

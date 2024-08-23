@@ -8,36 +8,25 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
 import ImageModal from '../ImageModal/ImageModal';
 
+type Image = {
+  id: string;
+  urls: {
+    small: string;
+    regular: string;
+  };
+  alt_description: string;
+};
+
 export default function App() {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [page, setPage] = useState(1);
-  const [newReq, setnewReq] = useState('');
-  //   const [totalPages, setTotalPages] = useState(0);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [articles, setArticles] = useState<Image[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [newReq, setnewReq] = useState<string>('');
+  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
 
-  //   useEffect(() => {
-  //     setLoading(true);
-  //     async function getArticles() {
-  //       try {
-  //         setLoading(true);
-  //         const data = await fetchImages('cup');
-  //         console.log(data);
-  //         setArticles(data);
-  //         setLoading(false);
-  //       } catch (error) {
-  //         setError(true);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     }
-
-  //     getArticles();
-  //   }, []);
-
-  const handleSearch = async newReq => {
+  const handleSearch = async (newReq: string) => {
     if (newReq === '') {
       toast.error('Please enter a word to search for a picture.');
       return;
@@ -49,23 +38,18 @@ export default function App() {
   };
 
   const handleLoadMore = () => {
-    console.log('click click click');
     setPage(page + 1);
   };
 
   useEffect(() => {
-    if (newReq === '') {
-      return;
-    }
+    if (newReq === '') return;
 
     async function getArticles() {
       try {
         setLoading(true);
         setError(false);
         const data = await fetchImages(newReq, page);
-        //   setTotalPages(data.total_pages);
         setArticles(prevData => [...prevData, ...data]);
-        setLoading(false);
         toast.success('The request is successful, the images are loading)');
       } catch (error) {
         toast.error('Ooops, some error, refresh the page...');
@@ -78,7 +62,7 @@ export default function App() {
     getArticles();
   }, [page, newReq]);
 
-  const openModal = item => {
+  const openModal = (item: Image) => {
     setSelectedImage(item);
     setIsOpen(true);
   };
