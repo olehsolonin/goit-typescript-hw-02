@@ -1,12 +1,13 @@
 import ImageCard from '../ImageCard/ImageCard';
+import { Image } from '../App/App'; // Імплементуйте тип з файлу types.ts
 
-type Image = {
-  id: string;
-  urls: {
-    small: string;
-  };
-  alt_description: string;
-};
+// type Image = {
+//   id: string;
+//   urls: {
+//     small: string;
+//   };
+//   alt_description: string;
+// };
 
 type ImageGalleryProps = {
   items: Image[];
